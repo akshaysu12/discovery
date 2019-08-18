@@ -5,6 +5,7 @@ import { Connection } from 'typeorm';
 import { Logger } from '../lib/logger';
 import { AuthService } from './AuthService';
 
+// tslint:disable-next-line: max-line-length
 export function authorizationChecker(connection: Connection): (action: Action, roles: any[]) => Promise<boolean> | boolean {
     const log = new Logger(__filename);
     const authService = Container.get<AuthService>(AuthService);

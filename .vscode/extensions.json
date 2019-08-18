@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "mikestead.dotenv",
+    "Orta.vscode-jest"
+  ]
+}

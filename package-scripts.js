@@ -145,6 +145,10 @@ module.exports = {
                 ),
                 description: 'Migrates the database to newest version available'
             },
+            generate: {
+                script: runFast('./node_modules/typeorm/cli.js migration:generate -n'),
+                description: 'Generates migration based on pending model changes'
+            },
             revert: {
                 script: series(
                     'nps banner.revert',

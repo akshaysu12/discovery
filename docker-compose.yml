@@ -1,0 +1,26 @@
+version: '2.4'
+services:
+  web:
+    build: .
+    container_name: discovery_web
+    ports:
+      - "3000:3000"
+      - "9000:9000"
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./node_modules:/usr/src/app/node_modules
+    depends_on:
+      - db
+    command: ["yarn", "start", "serve"]
+  db:
+    image: "mysql:5.6"
+    container_name: discovery_db
+    expose:
+      - "3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "discovery_dev"
+    ports:
+      - "4000:3306"

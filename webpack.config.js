@@ -5,7 +5,8 @@ module.exports = {
   entry: './src/web/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -16,6 +17,7 @@ module.exports = {
   devtool: "source-map",
   devServer: {
     contentBase: path.join(__dirname, "dist"),
+    historyApiFallback: true,
     compress: true,
     port: 9000,
     host: 'localhost',

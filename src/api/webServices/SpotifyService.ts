@@ -1,7 +1,7 @@
 import qs from 'qs';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import btoa from 'btoa';
-import { env } from 'src/env';
+import { env } from '../../env';
 import { Service } from 'typedi';
 
 @Service()
@@ -12,19 +12,20 @@ export class SpotifyService {
   public async token(code: string, grantType: string): Promise<object> {
     const auth = `${env.app.spotify.clientId}:${env.app.spotify.clientSecret}`;
     const url = 'https://accounts.spotify.com/api/token';
-    let data = {
+    const data = {
       grant_type: grantType,
     };
 
     if (grantType === 'authorization_code') {
+      // tslint:disable: no-string-literal
       data['code'] = code;
-      data['redirect_uri'] = 'http://localhost:9000/login'
+      data['redirect_uri'] = 'http://localhost:9000/login';
     }
-    const options = {
+    const options: AxiosRequestConfig = {
       method: 'POST',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${btoa(auth)}`
+        'Authorization': `Basic ${btoa(auth)}`,
       },
       data: qs.stringify(data),
       url,
@@ -36,10 +37,10 @@ export class SpotifyService {
   public async topTracks(token: object): Promise<object> {
     const auth = `Bearer ${token}`;
     const url = 'https://api.spotify.com/v1/me/top/tracks?limit=50';
-    const options = {
+    const options: AxiosRequestConfig = {
       method: 'GET',
       headers: {
-        'Authorization': auth
+        Authorization: auth,
       },
       url,
     };
@@ -50,10 +51,10 @@ export class SpotifyService {
   public async features(token: object, tracks: string[]): Promise<object> {
     const auth = `Bearer ${token}`;
     const url = `https://api.spotify.com/v1/audio-features?ids=${tracks.toString}`;
-    const options = {
+    const options: AxiosRequestConfig = {
       method: 'GET',
       headers: {
-        'Authorization': auth
+        Authorization: auth,
       },
       url,
     };

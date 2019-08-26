@@ -74,7 +74,7 @@
         ],
         "class-name": true,
         "curly": true,
-        "eofline": true,
+        "eofline": false,
         "jsdoc-format": true,
         "member-access": true,
         "no-arg": true,

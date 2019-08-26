@@ -39,6 +39,10 @@ export const env = {
             subscribers: getOsPaths('SUBSCRIBERS'),
             resolvers: getOsPaths('RESOLVERS'),
         },
+        spotify: {
+            clientId: getOsEnv('SPOTIFY_CLIENT_ID'),
+            clientSecret: getOsEnv('SPOTIFY_CLIENT_SECRET'),
+        },
     },
     log: {
         level: getOsEnv('LOG_LEVEL'),

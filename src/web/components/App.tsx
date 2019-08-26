@@ -10,7 +10,7 @@ export const App = () => {
         <Route path='/login' component={Login} />
         <Route path='/spotify' component={() => {
           // tslint:disable-next-line: max-line-length
-          window.location.href = '';
+          window.location.href = 'https://accounts.spotify.com/authorize?response_type=code&scope=user-read-recently-played%20user-top-read&client_id=8c92f3e56fb64a16b4ef6b25a0ea04cf&redirect_uri=http://localhost:9000/login';
           return undefined;
         }}/>
     </Router>

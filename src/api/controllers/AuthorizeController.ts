@@ -1,9 +1,9 @@
 import {
-  Authorized, Post, JsonController, Body
+  Authorized, Post, JsonController, Body, HttpCode, Get
 } from 'routing-controllers';
 import { SpotifyService } from '../webServices/SpotifyService';
 import { parseTopTracks } from '../helpers/spotifyHelper';
-// import { createVisualization } from '../helpers/dataHelper';
+import { createVisualization } from '../helpers/dataHelper';
 
 @Authorized()
 @JsonController('/authorize')
@@ -13,16 +13,26 @@ export class AuthorizeController {
     private spotifyService: SpotifyService
   ) {}
 
-  @Post()
-  public async Authorize(@Body() code: string ): Promise<object> {
-    const userToken = await this.spotifyService.token(code, 'authorization_code');
+  @HttpCode(200)
+  @Post('/')
+  public async Authorize(@Body() authorizeBody: any): Promise<object> {
+    const userToken = await this.spotifyService.token(authorizeBody.code, 'authorization_code');
     const tracks = await this.spotifyService.topTracks(userToken);
-    const serviceToken = await this.spotifyService.token(code, 'client_credentials');
+    // console.log('TRACKS: ', tracks);
+    const trackIds =  parseTopTracks(tracks);
+    console.log('IDS: ', trackIds);
+    const serviceToken = await this.spotifyService.token(authorizeBody.code, 'client_credentials');
+    console.log('TOKEN: ', serviceToken);
     // tslint:disable-next-line: no-string-literal
     // const topTracks = tracks['items'].map((track) => track.id);
-    const features = await this.spotifyService.features(serviceToken, parseTopTracks(tracks));
+    const features = await this.spotifyService.features(serviceToken, trackIds);
     return features;
-    // return createVisualization(serviceToken);
+  }
+
+  @HttpCode(200)
+  @Get('/visualize')
+  public async Visualize(): Promise<any> {
+    return createVisualization();
   }
 
 }

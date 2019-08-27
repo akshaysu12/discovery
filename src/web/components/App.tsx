@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Hello } from './Hello';
+import { Visualization } from './Visualization';
 import { Login } from './Login';
 
 export const App = () => {
   return (
     <Router>
-        <Route path='/' exact component={Hello} />
+        <Route path='/' exact component={Visualization} />
         <Route path='/login' component={Login} />
         <Route path='/spotify' component={() => {
           // tslint:disable-next-line: max-line-length

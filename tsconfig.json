@@ -26,6 +26,7 @@
         "lib": [
             "es5",
             "es6",
+            "es2017",
             "dom",
             "es2015.core",
             "es2015.collection",

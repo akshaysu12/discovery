@@ -18,14 +18,11 @@ export class AuthorizeController {
   public async Authorize(@Body() authorizeBody: any): Promise<object> {
     const userToken = await this.spotifyService.token(authorizeBody.code, 'authorization_code');
     const tracks = await this.spotifyService.topTracks(userToken);
-    // console.log('TRACKS: ', tracks);
-    const trackIds =  parseTopTracks(tracks);
-    console.log('IDS: ', trackIds);
+    const trackData =  parseTopTracks(tracks);
     const serviceToken = await this.spotifyService.token(authorizeBody.code, 'client_credentials');
-    console.log('TOKEN: ', serviceToken);
     // tslint:disable-next-line: no-string-literal
     // const topTracks = tracks['items'].map((track) => track.id);
-    const features = await this.spotifyService.features(serviceToken, trackIds);
+    const features = await this.spotifyService.features(serviceToken, trackData.ids);
     return features;
   }
 

@@ -25,6 +25,16 @@ module.exports = {
             description: 'Serves the current app and watches for changes to restart it'
         },
         /**
+         * Starts the react fronted and watches for changes to restart it
+         */
+        react: {
+            script: series(
+                'nps banner.serve',
+                'webpack-dev-server --inline'
+            ),
+            description: 'Serves the current app and watches for changes to restart it'
+        },
+        /**
          * Setup of the development environment
          */
         setup: {

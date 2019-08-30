@@ -57,7 +57,6 @@ export class SpotifyService {
   public async features(token: object, tracks: string[]): Promise<object> {
     const auth = `Bearer ${token}`;
     const queryIds = tracks.reduce((accum, id) => accum + '%2C' + id);
-    console.log(queryIds);
     const url = `https://api.spotify.com/v1/audio-features?ids=${queryIds}`;
     const options: AxiosRequestConfig = {
       method: 'GET',

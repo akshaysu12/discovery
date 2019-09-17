@@ -1,11 +1,12 @@
-import { trackData } from '../trackData';
+import { TrackData } from '../trackData';
 
 // tslint:disable: no-string-literal
 
 // use map
-export const parseTopTracks = (tracks: object[]): trackData => {
+export const parseTopTracks = (tracks: object[]): TrackData => {
   // tslint:disable-next-line: prefer-const
   let ids = [];
+  // tslint:disable-next-line: prefer-const
   let names = [];
 
   console.log(tracks[0]);
@@ -15,7 +16,7 @@ export const parseTopTracks = (tracks: object[]): trackData => {
   }
   return {
     ids,
-    names
+    names,
   };
 };
 

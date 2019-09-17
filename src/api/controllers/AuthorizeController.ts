@@ -1,8 +1,9 @@
 import {
-  Authorized, Post, JsonController, Body, HttpCode, Get
+  Authorized, Post, JsonController, Body, HttpCode
 } from 'routing-controllers';
 import { SpotifyService } from '../webServices/SpotifyService';
 import { parseTopTracks } from '../helpers/spotifyHelper';
+import { AuthService } from '../webServices/AuthService';
 import { createVisualization } from '../helpers/dataHelper';
 
 @Authorized()
@@ -10,26 +11,38 @@ import { createVisualization } from '../helpers/dataHelper';
 export class AuthorizeController {
 
   constructor(
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private authService: AuthService
   ) {}
 
   @HttpCode(200)
   @Post('/')
-  public async Authorize(@Body() authorizeBody: any): Promise<object> {
-    const userToken = await this.spotifyService.token(authorizeBody.code, 'authorization_code');
+  public async Visualize(@Body() authorizeBody: any): Promise<object> {
+
+    const userToken = this.getUserToken(authorizeBody.code);
+    const serviceToken = this.getServiceToken(authorizeBody.code);
+
     const tracks = await this.spotifyService.topTracks(userToken);
     const trackData =  parseTopTracks(tracks);
-    const serviceToken = await this.spotifyService.token(authorizeBody.code, 'client_credentials');
-    // tslint:disable-next-line: no-string-literal
-    // const topTracks = tracks['items'].map((track) => track.id);
+
     const features = await this.spotifyService.features(serviceToken, trackData.ids);
-    return features;
+    return createVisualization(features);
   }
 
-  @HttpCode(200)
-  @Get('/visualize')
-  public async Visualize(): Promise<any> {
-    return createVisualization();
+  private async getUserToken(code: string): Promise<object> {
+    const body = {
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: 'http://localhost:9000/login',
+    };
+    return await this.authService.token(body);
+  }
+
+  private async getServiceToken(code: string): Promise<object> {
+    const body = {
+      grant_type: 'client_credentials',
+    };
+    return await this.authService.token(body);
   }
 
 }

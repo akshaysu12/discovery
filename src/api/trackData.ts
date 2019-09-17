@@ -1,4 +1,4 @@
-export interface trackData {
-  ids: string[],
-  names: string[]
+export interface TrackData {
+  ids: string[];
+  names: string[];
 }

@@ -9,7 +9,6 @@ export const parseTopTracks = (tracks: object[]): TrackData => {
   // tslint:disable-next-line: prefer-const
   let names = [];
 
-  console.log(tracks[0]);
   for (const track of tracks) {
     ids.push(track['id']);
     names.push(track['name']);

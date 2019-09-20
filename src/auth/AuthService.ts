@@ -37,9 +37,6 @@ export class AuthService {
                 username,
             },
         });
-        console.log('***********************');
-        console.log(user);
-        console.log('***********************');
 
         if (await User.comparePassword(user, password)) {
             return user;

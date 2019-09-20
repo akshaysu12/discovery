@@ -1,14 +1,13 @@
 import {
-  Authorized, Post, JsonController, Body, HttpCode
+  JsonController, HttpCode, Get, QueryParam
 } from 'routing-controllers';
 import { SpotifyService } from '../webServices/SpotifyService';
 import { parseTopTracks } from '../helpers/spotifyHelper';
 import { AuthService } from '../webServices/AuthService';
 import { createVisualization } from '../helpers/dataHelper';
 
-@Authorized()
-@JsonController('/authorize')
-export class AuthorizeController {
+@JsonController('/visualize')
+export class VisualizeController {
 
   constructor(
     private spotifyService: SpotifyService,
@@ -16,11 +15,10 @@ export class AuthorizeController {
   ) {}
 
   @HttpCode(200)
-  @Post('/')
-  public async Visualize(@Body() authorizeBody: any): Promise<object> {
-
-    const userToken = this.getUserToken(authorizeBody.code);
-    const serviceToken = this.getServiceToken(authorizeBody.code);
+  @Get('/')
+  public async Visualize(@QueryParam('code') code: string): Promise<any> {
+    const userToken = await this.getUserToken(code);
+    const serviceToken = await this.getServiceToken(code);
 
     const tracks = await this.spotifyService.topTracks(userToken);
     const trackData =  parseTopTracks(tracks);

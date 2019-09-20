@@ -4,7 +4,6 @@ import { parseAudioFeatures } from './spotifyHelper';
 export const createVisualization = (features: any) => {
 
   const data = parseAudioFeatures(features.audio_features);
-
   const model = new TSNE({
     dim: 2,
     perplexity: 30.0,

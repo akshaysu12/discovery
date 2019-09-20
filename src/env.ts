@@ -43,6 +43,10 @@ export const env = {
             clientId: getOsEnv('SPOTIFY_CLIENT_ID'),
             clientSecret: getOsEnv('SPOTIFY_CLIENT_SECRET'),
         },
+        web: {
+            clientId: getOsEnv('WEB_CLIENT_ID'),
+            clientSecret: getOsEnv('WEB_CLIENT_SECRET'),
+        },
     },
     log: {
         level: getOsEnv('LOG_LEVEL'),

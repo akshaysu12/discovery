@@ -21,24 +21,29 @@ export default class Home extends Component<Props, State> {
   }
 
   public async componentDidMount(): Promise<void> {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('error')) {
-      this.setState({code: 'error'});
-    }
-    if (params.get('code')) {
-      const code = params.get('code');
-      const data = await this.createVisualization(code);
-      if (data) {
-        this.setState({code, data });
+    const cache = JSON.parse(localStorage.getItem('data'));
+    if (cache) {
+      this.setState({data: cache});
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('error')) {
+        this.setState({code: 'error'});
       }
-
+      if (params.get('code')) {
+        const code = params.get('code');
+        const data = await this.createVisualization(code);
+        if (data) {
+          this.setState({code, data });
+          localStorage.setItem('data', JSON.stringify(data));
+        }
+      }
     }
   }
 
   public render(): ReactNode {
     return (
       <div>
-        {this.state.data && <Visualization dimensions={this.state.data} />}
+        {this.state.data && <Visualization data={this.state.data} />}
 
       </div> );
   }
@@ -52,9 +57,7 @@ export default class Home extends Component<Props, State> {
         'Content-Type': 'application/json',
       },
     });
-    console.log('RES: ', res);
     const data = await res.json();
-    console.log('DATA: ', data);
     return data;
   }
 

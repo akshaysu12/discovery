@@ -2,7 +2,7 @@ import {
   JsonController, HttpCode, Get, QueryParam
 } from 'routing-controllers';
 import { SpotifyService } from '../webServices/SpotifyService';
-import { parseTopTracks } from '../helpers/spotifyHelper';
+import { parseTopTracks, convertData } from '../helpers/spotifyHelper';
 import { AuthService } from '../webServices/AuthService';
 import { createVisualization } from '../helpers/dataHelper';
 
@@ -24,7 +24,11 @@ export class VisualizeController {
     const trackData =  parseTopTracks(tracks);
 
     const features = await this.spotifyService.features(serviceToken, trackData.ids);
-    return createVisualization(features);
+    const dimensions = createVisualization(features);
+    return {
+      titles: trackData.titles,
+      dimensions: convertData(dimensions),
+    };
   }
 
   private async getUserToken(code: string): Promise<object> {

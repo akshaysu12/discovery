@@ -15,7 +15,7 @@ export const parseTopTracks = (tracks: object[]): TrackData => {
   }
   return {
     ids,
-    names,
+    titles: names,
   };
 };
 
@@ -46,5 +46,12 @@ export const parseAudioFeatures = (features: object[]): number[][] => {
     }
     res.push(dimensions);
   }
+  return res;
+};
+
+export const convertData = (dimensions: number[][]): any => {
+  const res = dimensions.map((arr: number[]) => {
+    return {x: arr[0], y: arr[1]};
+  });
   return res;
 };

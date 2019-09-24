@@ -3,10 +3,10 @@ import { parseAudioFeatures } from './spotifyHelper';
 
 export const createVisualization = (features: any) => {
 
-  const data = parseAudioFeatures(features.audio_features);
+  const data = parseAudioFeatures(features);
   const model = new TSNE({
     dim: 2,
-    perplexity: 30.0,
+    perplexity: 20.0,
     earlyExaggeration: 4.0,
     learningRate: 100,
     nIter: 1000,
@@ -29,11 +29,15 @@ export const createVisualization = (features: any) => {
   }
 
   // rerun without re-calculating pairwise distances, etc.
-  // const [error, iter] = model.rerun();
+  // [error, iter] = model.rerun();
+
+  // if (error) {
+  //   console.log(`error on iteration ${iter}: ${error}`);
+  // }
 
   // `output` is unpacked ndarray (regular nested javascript array)
-  return model.getOutput();
+  // return model.getOutput();
 
   // `outputScaled` is `output` scaled to a range of [-1, 1]
-  // const outputScaled = model.getOutputScaled();
+  return model.getOutputScaled();
 };

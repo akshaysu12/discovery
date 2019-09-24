@@ -1,22 +1,21 @@
 import { TrackData } from '../trackData';
 
-// tslint:disable: no-string-literal
-
-// use map
-export const parseTopTracks = (tracks: object[]): TrackData => {
-  // tslint:disable-next-line: prefer-const
-  let ids = [];
-  // tslint:disable-next-line: prefer-const
-  let names = [];
-
-  for (const track of tracks) {
-    ids.push(track['id']);
-    names.push(track['name']);
-  }
-  return {
-    ids,
-    titles: names,
+export const parseTopTracks = (tracks: any[]): TrackData => {
+  const trackData: TrackData = {
+    titles: [],
+    ids: [],
   };
+
+  // remove duplicates and parse
+  const parsedTracks = tracks.reduce((accum, track) => {
+      if (!accum.titles.includes(track.name)) {
+        accum.titles.push(track.name);
+        accum.ids.push(track.id);
+      }
+    return accum;
+  }, trackData);
+
+  return parsedTracks;
 };
 
 export const parseAudioFeatures = (features: object[]): number[][] => {

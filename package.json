@@ -64,7 +64,7 @@
     "ts-node": "7.0.1",
     "tslint": "^5.8.0",
     "tsne-js": "^1.0.3",
-    "type-graphql": "^0.15.0",
+    "type-graphql": "^0.17.6",
     "typedi": "0.8.0",
     "typeorm": "^0.2.5",
     "typeorm-seeding": "^1.0.0-beta.6",
